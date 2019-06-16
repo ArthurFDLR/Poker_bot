@@ -13,8 +13,10 @@ package body lecture_messages is
                       amount_move_launcher => 0,
                       J_mover              => Self,
                       J_idle               => Other);
+
          Put_Line(T_moves'Image(move));
       end if;
+      Set_joueur_move(Self,move);
    end;
    
    function est_mots_clefs_1(mot_clef : IN T_chaine) return Boolean is
