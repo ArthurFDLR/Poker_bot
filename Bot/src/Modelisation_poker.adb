@@ -79,6 +79,18 @@ package body Modelisation_poker IS
    begin
       jeu.Min_bet:=MB;
    end;
+
+   Procedure Set_time_to_play(jeu : OUT T_jeu; Time : Float) is
+   Begin
+      jeu.time_action := Time;
+   end;
+   
+   Procedure Set_Action_needed(jeu : OUT T_Jeu; state : IN Boolean) is
+   Begin
+      jeu.Action_needed := state;
+   end;
+   
+   
    
    Function Get_Amount_to_call(jeu : IN T_Jeu) return Natural is
    begin
@@ -108,6 +120,16 @@ package body Modelisation_poker IS
    Function Get_Min_bet(jeu : IN T_Jeu) return Natural is
    begin
       return jeu.Min_bet;
+   end;
+   
+   Function Get_time_to_play(jeu : IN T_Jeu) return Float is
+   Begin
+      return jeu.time_action;
+   end;
+   
+   Function Get_Action_needed(jeu : IN T_Jeu) return Boolean is
+   Begin
+      return jeu.Action_needed;
    end;
    
    

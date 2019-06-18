@@ -11,8 +11,8 @@ begin
    for i in 1..10 LOOP
       get(Message_in);
       if Get_chaine_line(Get_message_entier(Message_in)) = "action" THEN
-         Jouer(move        => call,
-               Amount_move => 0,
+         Jouer(move        => bet,
+               Amount_move => 200,
                Self        => Jself,
                Other       => Jother);
          Affiche_joueur(Jself);

@@ -45,6 +45,8 @@ package Modelisation_poker is -- DONE & CHECKED
    Procedure Set_Pot(jeu : OUT T_Jeu; Pot : IN Natural);
    Procedure Set_Amount_to_call(jeu : OUT T_Jeu; ATC : IN Natural);
    Procedure Set_Min_bet(jeu : OUT T_Jeu; MB : IN Natural);
+   Procedure Set_time_to_play(jeu : OUT T_jeu; Time : Float);
+   Procedure Set_Action_needed(jeu : OUT T_Jeu; state : IN Boolean);
    
    Function Get_Amount_to_call(jeu : IN T_Jeu) return Natural;
    Function Get_Pot(jeu : IN T_Jeu) return Natural;
@@ -52,7 +54,9 @@ package Modelisation_poker is -- DONE & CHECKED
    Function Get_SmallBlind(jeu : IN T_Jeu) return Natural;
    Function Get_BigBlind(jeu : IN T_Jeu) return Natural;
    Function Get_Min_bet(jeu : IN T_Jeu) return Natural;
-
+   Function Get_time_to_play(jeu : IN T_Jeu) return Float;
+   Function Get_Action_needed(jeu : IN T_Jeu) return Boolean;
+   
    -- Manipulation des cartes
 
    MAX_LISTE_CARTES : Constant Natural := 9; -- table + 2 main
@@ -113,6 +117,8 @@ private
       Pot : Natural := 0;
       Amount_to_call : Natural := 0;
       Min_bet : Natural := 0;
+      Action_needed : Boolean := False;
+      time_action : Float := 0.0;
    end record;
    
    Type T_joueur is record

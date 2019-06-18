@@ -233,7 +233,9 @@ package body lecture_messages is
          When T_mots_clefs_1'Val(2) => -- Update_hand : on met a jour les infos
             lecture_update_hand(message, Table, info_partie, J_Self, J_Other);
             
-         When others => null;
+         When T_mots_clefs_1'Val(0) => -- Action
+            Set_Action_needed(info_partie,True);
+            Set_time_to_play(info_partie, Float'Value(Get_chaine_line(Get_message_mot(message,2))));
          end case;
       else
          Put_Line(Standard_Error,"Lecture d'un message incoherent");
