@@ -287,4 +287,40 @@ package body Evaluation_main is
       return (nbr_gagne*100)/nbr_simu;
    End;
    
+   function Get_puissance_main(Table : IN T_liste_cartes ; Self : T_joueur ; Limite_duree : IN Float) return Natural is
+      puissance : Natural := 0;
+   Begin
+      if Get_nbr_liste_carte(Table) < 3 THEN
+         puissance := pourcentage_gagne_PostFlop_TimeLimited(Table, Self, Limite_duree);
+      else
+         puissance := Natural(puispreflop(Self));
+      end if;
+      return puissance;
+   end;
+   
+
+   
+   Function puispreflop(joueur: IN T_joueur) return Float is 
+      pourc : float := 0.0;
+      motif1 : natural;
+      motif2 : natural;
+   begin
+      motif1:=T_Motif'Pos(Get_carte_motif(Carte => Get_liste_carte(Get_joueur_main(joueur => joueur), 1 ))); --(parametre dans lequel je prends => variable)
+      motif2:=T_Motif'Pos(Get_carte_motif(Carte => Get_liste_carte(Get_joueur_main(joueur => joueur), 2 )));      
+      -- si on a une même couleur: partie supérieure du tableau
+      if Get_carte_couleur(Get_liste_carte(Get_joueur_main(joueur => joueur),1))=Get_carte_couleur(Get_liste_carte(Get_joueur_main(joueur => joueur),2)) then
+         if motif1 > motif2 then
+            pourc:=(Data_winPreFlop(12-motif1,12-motif2))*100.0;
+         else  pourc:=(Data_winPreFlop(12-motif2,12-motif1))*100.0;
+         end if;
+         -- sinon partie inferieure   
+      else
+         if motif1 > motif2 then
+            pourc:=(Data_winPreFlop(12-motif2,12-motif1))*100.0;
+         else  pourc:=(Data_winPreFlop(12-motif1,12-motif2))*100.0;
+         end if;
+      end if;
+      return pourc;
+   end puispreflop;
+   
 end Evaluation_main;

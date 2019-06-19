@@ -26,7 +26,7 @@ begin
                Self        => Self,
                Other       => Other);
 
-         Set_Action_needed(info_partie, False;
+         Set_Action_needed(info_partie, False);
       end if;
    end loop;
 end;
