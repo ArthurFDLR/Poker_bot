@@ -54,7 +54,7 @@ package body strategie_adversaire is
       put(fichier, stockage.tours(i).Stack_other);
       put(fichier, ";");
       if Get_nbr_liste_carte(stockage.tours(i).Table) > 3 then
-            put(fichier, pourcentage_gagne_PostFlop_NoLimit(stockage.tours(i).Table,stockage.tours(i).self));
+            put(fichier, Get_puissance_main(stockage.tours(i).Table,stockage.tours(i).self,1.0));
       else
          put(fichier, 50);
       end if;
@@ -115,7 +115,7 @@ package body strategie_adversaire is
          tour := stockage.tours(t);
          if Get_nbr_liste_carte(Get_joueur_main(tour.other)) > 1 then
             n_acces_cartes_adv := n_acces_cartes_adv + 1;
-            C := ((float(pourcentage_gagne_PostFlop_TimeLimited(Table=> tour.Table,Self=> tour.other,Limite_duree => 0.1))/float(tour.puissance_main_self))+C)/float(n_acces_cartes_adv);
+            C := ((float(Get_puissance_main(Table=> tour.Table,Self=> tour.other,Limite_duree => 0.1))/float(tour.puissance_main_self))+C)/float(n_acces_cartes_adv);
          end if;
 
          if Get_joueur_move(tour.self) = Fold then
@@ -164,5 +164,79 @@ package body strategie_adversaire is
    end determination_profil_adversaire;
 
 
+   procedure Think_Then_Play(force_main : in Natural; profil_adv : in T_profil_adversaire; jeu : in T_Jeu; self,other : in T_joueur) is
+      pourc_moy : Natural;
+      pourc_bon : Natural;
+      Amount_to_call : Natural;
+      Stack : Natural;
+      mise_potentielle : Natural;
+   begin
+      Amount_to_call := Get_Amount_to_call(jeu);
+      Stack := Get_Stack(Joueur);
+
+      case profil_adv is
+      when frileux =>
+         pourc_moy:=30;
+         pourc_bon:=60;
+      when con =>
+         pourc_moy:=40;
+         pourc_bon:=70;
+      when couillu =>
+         pourc_moy:=50;
+         pourc_bon:=80;
+      when suisse =>
+         pourc_moy:=40;
+         pourc_bon:=70;
+      end case;
+
+      if force_main < pourc_moy then -- Si on a peu de chance de gagner on check si possible, sinon on se couche
+         if Amount_to_call = 0 then
+            Jouer(move        => check,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         else
+            Jouer(move        => fold,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         end if;
+      elsif force_main < Pourc_bon then -- Si on a une chance moyenne de gagner,on check si possible, sinon on suit si la mise n'est pas trop eleve, sinon on se couche
+         if Amount_to_call = 0 then
+            Jouer(move        => check,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         elsif Amount_to_call < ((force_main-pourc_moy)*Stack)/100 then
+            Jouer(move        => call,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         else
+            Jouer(move        => fold,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         end if;
+      else -- Si on a une grande chance de gagner, on mise si la mise actuelle n'est pas trop eleve, sinon on suit si c'est pas trop eleve, sinon on se couche
+         mise_potentielle := (((force_main * 2) - 110) *Stack)/100;
+         if mise_potentielle > 2 * Amount_to_call then
+            Jouer(move        => bet,
+                  Amount_move => mise_potentielle,
+                  Self        => self,
+                  Other       => other);
+         elsif ((force_main-30)*Stack)/100 > Amount_to_call and Amount_to_call > 0 then
+            Jouer(move        => call,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         else
+            Jouer(move        =>fold,
+                  Amount_move => 0,
+                  Self        => self,
+                  Other       => other);
+         end if;
+      end if;
+   end;
 
 end strategie_adversaire;
