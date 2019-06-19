@@ -100,8 +100,8 @@ package body lecture_messages is
                   
                   Set_joueur_amount_move(J_Self, Get_SmallBlind(info_partie)); --stock les actions de blind des joueurs
                   Set_joueur_amount_move(J_Other, Get_BigBlind(info_partie));
-                  Set_stack(J_Self, Get_Stack(J_Self) - Get_joueur_amount_move(J_Self));
-                  Set_stack(J_Other, Get_Stack(J_Other) - Get_joueur_amount_move(J_Other));
+                  Set_stack(J_Self, Integer'Max(Get_Stack(J_Self) - Get_joueur_amount_move(J_Self),0));
+                  Set_stack(J_Other, Integer'Max(Get_Stack(J_Other) - Get_joueur_amount_move(J_Other),0));
                   
                   
                when T_mots_clefs_3'Val(1) => --other
@@ -110,8 +110,8 @@ package body lecture_messages is
                   
                   Set_joueur_amount_move(J_Other, Get_SmallBlind(info_partie)); --stock les actions de blind des joueurs
                   Set_joueur_amount_move(J_Self, Get_BigBlind(info_partie));
-                  Set_stack(J_Self, Get_Stack(J_Self) - Get_joueur_amount_move(J_Self));
-                  Set_stack(J_Other, Get_Stack(J_Other) - Get_joueur_amount_move(J_Other));
+                  Set_stack(J_Self, Integer'Max(Get_Stack(J_Self) - Get_joueur_amount_move(J_Self),0));
+                  Set_stack(J_Other, Integer'Max(Get_Stack(J_Other) - Get_joueur_amount_move(J_Other),0));
             end case;
             
          when T_mots_clefs_2'Val(1) => --stack
@@ -229,11 +229,7 @@ package body lecture_messages is
             end if;
       end case;
       
-      if Get_Stack(J_mover) - Get_joueur_amount_move(J_mover) < 0 THEN
-         Put_Line(Standard_Error, "Stack joueur negatif");
-      else
-         Set_stack(J_mover, Get_Stack(J_mover) - Get_joueur_amount_move(J_mover));
-      end if;
+      Set_stack(J_mover, Integer'Max(0,Get_Stack(J_mover) - Get_joueur_amount_move(J_mover)));
    end;
    
    procedure Update_data(message : IN T_message ; Table : OUT T_liste_cartes ; info_partie : Out T_jeu ; J_Self : Out T_joueur ; J_Other : Out T_joueur) is
@@ -252,7 +248,7 @@ package body lecture_messages is
             Set_time_to_play(info_partie, Float'Value(Get_chaine_line(Get_message_mot(message,2))));
          end case;
       else
-         Put_Line(Standard_Error,"Lecture d'un message incoherent");
+         Put_Line(Standard_Error,"Lecture d'un message non pris en charge : " & Get_chaine_line(Get_message_entier(message)));
       end if;
       
    end;

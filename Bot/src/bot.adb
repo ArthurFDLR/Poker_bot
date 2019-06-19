@@ -21,18 +21,11 @@ begin
                   J_Self      => Self,
                   J_Other     => Other);
 
-      if Get_Action_needed(info_partie) THEN -- Si le launcher attend une réponse
-
-
-         Puissance_main_self := Get_puissance_main(Table        => Table,
-                                                   Self         => Self,
-                                                   Limite_duree => Get_time_to_play(info_partie)*0.8);
-
-         Think_Then_Play(force_main => Puissance_main_self,
-                         profil_adv => Profil_adversaire,
-                         jeu        => info_partie,
-                         self       => Self,
-                         other      => Other);
+      if Get_Action_needed(info_partie) THEN -- Si le launcher attend une reponse
+         Jouer(move        => call,
+               Amount_move => 0,
+               Self        => Self,
+               Other       => Other);
 
          Set_Action_needed(info_partie, False);
       end if;

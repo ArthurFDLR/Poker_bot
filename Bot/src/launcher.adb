@@ -7,7 +7,7 @@ with Ada.Strings.Fixed;
 use Ada.Strings.Fixed;
 
 procedure Launcher is
-   Java : constant String := "C:\Users\ArthF\Documents\ENSMA\PROJET_INFO_S2\Bot_encaps\jdk-11.0.1\bin\java";
+   Java : constant String := "E:\Documents_DD\PROJECTS\Bot_BEARL\Bot_encaps\jdk-11.0.1\bin\java";
    Engine : constant String := "lib/engine.jar";
    Ref_Name : constant String := "Javabot";
    Ref_Bot : constant String := "lib/bot.jar";

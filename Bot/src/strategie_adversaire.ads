@@ -25,8 +25,6 @@ package strategie_adversaire is
    -- Entraine : Determine le profil de l'adversaire 
    procedure determination_profil_adversaire(jeu : in T_Jeu; self,other : in T_joueur; table : in T_liste_cartes; stockage : in out stockage_tours;puissance_self : in Natural; profil : out T_profil_adversaire);
    
-   procedure Think_Then_Play(force_main : in Natural; profil_adv : in T_profil_adversaire; jeu : in T_Jeu; self,other : in T_joueur);
-     
    private
    
    N_max_tour : Integer := 1000;
