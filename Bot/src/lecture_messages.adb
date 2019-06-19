@@ -14,7 +14,7 @@ package body lecture_messages is
                       J_mover              => Self,
                       J_idle               => Other);
 
-         Put_Line(T_moves'Image(move));
+         Put_Line(To_Lower(T_moves'Image(move)));
       end if;
       Set_joueur_move(Self,move);
    end;
@@ -94,14 +94,26 @@ package body lecture_messages is
          
          when T_mots_clefs_2'Val(0) => --button
             case T_mots_clefs_3'value(message.decompose(3).line(1..message.decompose(3).line_length)) is
-               when T_mots_clefs_3'Val(0) =>
+               when T_mots_clefs_3'Val(0) => --self
                   Set_joueur_button(J_Self , True);
                   Set_joueur_button(J_Other , False);
-               when T_mots_clefs_3'Val(1) =>
+                  
+                  Set_joueur_amount_move(J_Self, Get_SmallBlind(info_partie)); --stock les actions de blind des joueurs
+                  Set_joueur_amount_move(J_Other, Get_BigBlind(info_partie));
+                  Set_stack(J_Self, Get_Stack(J_Self) - Get_joueur_amount_move(J_Self));
+                  Set_stack(J_Other, Get_Stack(J_Other) - Get_joueur_amount_move(J_Other));
+                  
+                  
+               when T_mots_clefs_3'Val(1) => --other
                   Set_joueur_button(J_Self , False);
                   Set_joueur_button(J_Other , True);
+                  
+                  Set_joueur_amount_move(J_Other, Get_SmallBlind(info_partie)); --stock les actions de blind des joueurs
+                  Set_joueur_amount_move(J_Self, Get_BigBlind(info_partie));
+                  Set_stack(J_Self, Get_Stack(J_Self) - Get_joueur_amount_move(J_Self));
+                  Set_stack(J_Other, Get_Stack(J_Other) - Get_joueur_amount_move(J_Other));
             end case;
-         
+            
          when T_mots_clefs_2'Val(1) => --stack
             case T_mots_clefs_3'value(message.decompose(3).line(1..message.decompose(3).line_length)) is 
                when T_mots_clefs_3'Val(0) =>   -- Utilisation de 'val pour ne pas confondre les self et other des differents types enumere
@@ -118,7 +130,9 @@ package body lecture_messages is
          
          when T_mots_clefs_2'Val(4) => --hand
             Set_N_hand(info_partie,Positive'value(message.decompose(3).line(1..message.decompose(3).line_length)));
-            Table := Init_liste_carte; -- Si on est à une nouvelle main on reinitialise la table
+            Table := Init_liste_carte; -- Si on est à une nouvelle main on reinitialise la table et les mains
+            Set_joueur_main(J_Self, Init_liste_carte);
+            Set_joueur_main(J_Other, Init_liste_carte);
 
          when others => null; --Afin de ne pas prendre en compte les mots appartenant a T_mots_clefs_2 decoulant de update_hand
          

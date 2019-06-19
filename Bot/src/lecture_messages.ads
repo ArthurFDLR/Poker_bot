@@ -1,5 +1,5 @@
-WITH Ada.Text_IO, Ada.Integer_Text_IO, Ada.Characters.Handling, Modelisation_poker; 
-USE  Ada.Text_IO, Ada.Integer_Text_IO, Ada.Characters.Handling, Modelisation_poker;
+WITH Ada.Text_IO, Ada.Integer_Text_IO, Ada.Characters.Handling, Ada.Characters.Handling, Modelisation_poker; 
+USE  Ada.Text_IO, Ada.Integer_Text_IO, Ada.Characters.Handling, Ada.Characters.Handling, Modelisation_poker;
 
 package lecture_messages is -- DONE & CHECKED
    
