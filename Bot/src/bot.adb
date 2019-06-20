@@ -9,7 +9,8 @@ procedure bot is
    Other : T_joueur;
    Table : T_liste_cartes;
    Profil_adversaire : T_profil_adversaire := Suisse;
-   Puissance_main_self : Natural :=0;
+   Puissance_main_self : Natural :=70;
+   stockage : stockage_tours;
 
 begin
    while not End_Of_File loop   -- Loop infini de jeu
@@ -21,11 +22,26 @@ begin
                   J_Self      => Self,
                   J_Other     => Other);
 
+      Puissance_main_self := Get_puissance_main(Table        => Table,
+                                                Self         => Self,
+                                                Limite_duree => 0.5); --  Get_time_to_play(info_partie)*0.8
+
+      determination_profil_adversaire(jeu            => info_partie,
+                                      self           => Self,
+                                      other          => Other,
+                                      table          => Table,
+                                      stockage       => stockage,
+                                      puissance_self => Puissance_main_self,
+                                      profil         => Profil_adversaire);
+
       if Get_Action_needed(info_partie) THEN -- Si le launcher attend une reponse
-         Jouer(move        => call,
-               Amount_move => 0,
-               Self        => Self,
-               Other       => Other);
+
+         Think_Then_Play(force_main => Puissance_main_self,
+                         profil_adv => Profil_adversaire,
+                         jeu        => info_partie,
+                         self       => Self,
+                         other      => Other);
+
 
          Set_Action_needed(info_partie, False);
       end if;

@@ -7,7 +7,7 @@ package body lecture_messages is
                       amount_move_launcher => Amount_move,
                       J_mover              => Self,
                       J_idle               => Other);
-         Put_Line(T_moves'Image(move) & Integer'Image(Amount_move));
+         Put_Line(To_Lower(T_moves'Image(move) & Integer'Image(Amount_move)));
       else
          update_stack(move                 => move,
                       amount_move_launcher => 0,

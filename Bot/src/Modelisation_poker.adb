@@ -284,7 +284,7 @@ package body Modelisation_poker IS
    
    procedure Affiche_carte(Carte : IN T_Carte) is
    Begin
-      Put_Line(T_Motif'Image(Get_carte_motif(Carte)) & " de " & T_couleur'Image(Get_carte_couleur(Carte)));
+      Put_Line(Standard_Error,T_Motif'Image(Get_carte_motif(Carte)) & " de " & T_couleur'Image(Get_carte_couleur(Carte)));
    end;
 
    procedure Affiche_liste_carte(liste_carte : IN T_liste_cartes) is
@@ -296,20 +296,20 @@ package body Modelisation_poker IS
    
    procedure Affiche_jeu(jeu : IN T_Jeu) is
    Begin
-      Put_Line("Blinds : " & Integer'Image(jeu.big_blind) & ";" & Integer'Image(jeu.small_blind));
-      Put_Line("Num de main : " & Integer'Image(jeu.N_hand));
-      Put_Line("Pot : " & Integer'Image(jeu.Pot));
-      Put_Line("Amount_to_call : " & Integer'Image(jeu.Amount_to_call));
-      Put_Line("Min_bet : " & Integer'Image(jeu.Min_bet));
+      Put_Line(Standard_Error,"Blinds : " & Integer'Image(jeu.big_blind) & ";" & Integer'Image(jeu.small_blind));
+      Put_Line(Standard_Error,"Num de main : " & Integer'Image(jeu.N_hand));
+      Put_Line(Standard_Error,"Pot : " & Integer'Image(jeu.Pot));
+      Put_Line(Standard_Error,"Amount_to_call : " & Integer'Image(jeu.Amount_to_call));
+      Put_Line(Standard_Error,"Min_bet : " & Integer'Image(jeu.Min_bet));
    end;
    
    procedure Affiche_joueur(joueur : IN T_joueur) is
    Begin
-      Put_Line("Stack : " & Integer'Image(joueur.Stack));
-      Put_Line("Button : " & Boolean'Image(joueur.Button));
-      Put_Line("Cartes du joueur : ");
+      Put_Line(Standard_Error,"Stack : " & Integer'Image(joueur.Stack));
+      Put_Line(Standard_Error,"Button : " & Boolean'Image(joueur.Button));
+      Put_Line(Standard_Error,"Cartes du joueur : ");
       Affiche_liste_carte(joueur.Main);
-      Put_Line("Move : " & T_moves'Image(joueur.move) & Natural'Image(joueur.amount_move));
+      Put_Line(Standard_Error,"Move : " & T_moves'Image(joueur.move) & Natural'Image(joueur.amount_move));
    End;
    
 end Modelisation_poker;

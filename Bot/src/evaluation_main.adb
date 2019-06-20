@@ -284,13 +284,20 @@ package body Evaluation_main is
          
       end if;
       
-      return (nbr_gagne*100)/nbr_simu;
+      if nbr_simu = 0 THEN
+         Put_Line(Standard_Error,"Erreur calcul puissance : " );
+         Affiche_liste_carte(Table);
+         Affiche_liste_carte(Get_joueur_main(Self));
+         return 0;
+      else
+         return (nbr_gagne*100)/nbr_simu;
+      end if;
    End;
    
    function Get_puissance_main(Table : IN T_liste_cartes ; Self : T_joueur ; Limite_duree : IN Float) return Natural is
       puissance : Natural := 0;
    Begin
-      if Get_nbr_liste_carte(Table) < 3 THEN
+      if Get_nbr_liste_carte(Table) > 2 THEN
          puissance := pourcentage_gagne_PostFlop_TimeLimited(Table, Self, Limite_duree);
       else
          puissance := Natural(puispreflop(Self));
