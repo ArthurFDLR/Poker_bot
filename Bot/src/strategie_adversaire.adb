@@ -55,7 +55,7 @@ package body strategie_adversaire is
       put(fichier, stockage.tours(i).Stack_other);
       put(fichier, ";");
       if Get_nbr_liste_carte(stockage.tours(i).Table) > 3 then
-            put(fichier, Get_puissance_main(stockage.tours(i).Table,stockage.tours(i).self,1.0));
+            put(fichier, Get_puissance_main(stockage.tours(i).Table,stockage.tours(i).self,0.001));
       else
          put(fichier, 50);
       end if;
