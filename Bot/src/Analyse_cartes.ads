@@ -21,11 +21,6 @@ package Analyse_cartes is
       
    -- Analyse de la partie :
    
-   -- trier_cartes
-   -- E/S/ Liste de cartes : T_liste_cartes
-   -- Entraine : La liste de carte triee selon la hauteur du motifs (cf. T_motif)
-   procedure trier_cartes(cartes_in : IN OUT T_liste_cartes); -- CHECKED test_trier_cartes
-   
    -- concatenation_cartes
    -- E/ Deux listes de cartes : T_liste_cartes
    -- Necessite : Len(liste_1)+Len(liste_2) < MAX_LISTE_CARTES
@@ -93,6 +88,12 @@ private
    -- Entraine : Nombre d'occurence de chaques motifs au seins d'une liste de cartes
    --            La position dans la liste correspond a la position dans l'enumeration de T_motif du moti
    function compte_cartes(cartes_in : IN T_liste_cartes) return T_liste_nombre_motif;
+   
+      
+   -- trier_cartes
+   -- E/S/ Liste de cartes : T_liste_cartes
+   -- Entraine : La liste de carte triee selon la hauteur du motifs (cf. T_motif)
+   procedure trier_cartes(cartes_in : IN OUT T_liste_cartes); -- CHECKED test_trier_cartes
    
    -- Permet de connaitre la meilleure carte d'une liste de cartes
    -- utilise la fonction compte_cartes pour obtenir la liste_motifs d'une liste de cartes

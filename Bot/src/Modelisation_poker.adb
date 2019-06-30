@@ -230,9 +230,6 @@ package body Modelisation_poker IS
    
    Procedure Set_joueur_main(joueur : OUT T_joueur ; main : IN T_liste_cartes) is
    Begin
-      if main.nbr_cartes /= 2 THEN
-         Put_Line(Standard_Error,"Main d'un joueur avec plus ou moin de 2 cartes");
-      end if;
       joueur.Main := main;
    end;
    

@@ -62,7 +62,7 @@ package lecture_messages is -- DONE & CHECKED
    -- Necessite : Le message est issue du Launcher
    -- S/ Table : T_liste_cartes ; Infos de la partie : T_jeu ; 2 joueures : T_joueur
    -- Entraine : Mise a jour de l'etat de la partie en fonction du message
-   procedure Update_data(message : IN T_message ; Table : OUT T_liste_cartes ; info_partie : Out T_jeu ; J_Self : Out T_joueur ; J_Other : Out T_joueur); -- CHECKED test_maj_bot J_Other : Out T_joueur); -- NON CHECKED
+   procedure Update_data(message : IN T_message ; Table : OUT T_liste_cartes ; info_partie : Out T_jeu ; J_Self : Out T_joueur ; J_Other : Out T_joueur); -- CHECKED test_maj_bot J_Other : Out T_joueur);
    
    
    -- Manipulation de T_chaine

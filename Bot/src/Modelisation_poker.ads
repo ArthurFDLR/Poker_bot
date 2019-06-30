@@ -9,13 +9,11 @@ package Modelisation_poker is -- DONE & CHECKED
 
    Type T_Couleur is (pique,carreau,coeur,trefle); --s,d,h,c
    Type T_Motif is (deux,trois,quatre,cinq,six,sept,huit,neuf,dix,valet,reine,roi,as); -- 2,3,4,5,6,7,8,9,T,J,Q,K,A (par ordre de "puissance")
+   Type T_moves is (fold, check, call, bet);
    Type T_Carte is private;
+   Type T_liste_cartes is private;
    Type T_Jeu is private;
    Type T_joueur is private;
-   Type T_moves is (fold, check, call, bet);
-   
-   Type T_liste_cartes is private;
-   
       
    ---------------------------------------
    ---------- PROCEDURE/FUNCTION ---------

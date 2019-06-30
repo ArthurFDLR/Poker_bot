@@ -14,8 +14,8 @@ procedure Test_comparaison_algo is
    message_tmp : T_message;
    
    temps : time;
-   duree_1,duree_2 : Duration;
-   res_gagne_1,res_gagne_2 : Integer;
+   duree_1 : Duration;
+   res_gagne_1 : Integer;
    
    function Argument_to_Message(Index : IN Integer) return T_message is
       message_str : String(1..Argument(Index)'Last);
@@ -56,14 +56,9 @@ begin
    temps := Clock;
    res_gagne_1 := pourcentage_gagne_PostFlop_TimeLimited(Table        => Table,
                                                          Self         => Self,
-                                                         Limite_duree => 1.5);
+                                                         Limite_duree => 2.0);
    duree_1 := Clock - temps;
 
-   temps := Clock;
-   res_gagne_2 := pourcentage_gagne_PostFlop_NoLimit(Table        => Table,
-                                                     Self         => Self);
-   duree_2 := Clock - temps;
-   
-   Put_Line(Natural'Image(res_gagne_1) & ";" & Duration'Image(duree_1) & ";" & Natural'Image(res_gagne_2) & ";" & Duration'Image(duree_2));
+   Put_Line(Natural'Image(res_gagne_1) & ";" & Duration'Image(duree_1));
    
 end Test_comparaison_algo;

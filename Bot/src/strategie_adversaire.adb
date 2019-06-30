@@ -169,74 +169,239 @@ package body strategie_adversaire is
       pourc_bon : Natural;
       Amount_to_call : Natural;
       Stack : Natural;
-      mise_potentielle : Natural;
+      mise_potentielle : Natural := 0 ;
    begin
       Amount_to_call := Get_Amount_to_call(jeu);
       Stack := Get_Stack(self);
 
-      case profil_adv is
-      when frileux =>
-         pourc_moy:=30;
-         pourc_bon:=60;
-      when con =>
-         pourc_moy:=40;
-         pourc_bon:=70;
-      when couillu =>
-         pourc_moy:=50;
-         pourc_bon:=80;
-      when suisse =>
-         pourc_moy:=40;
-         pourc_bon:=70;
-      end case;
-
-      if force_main < pourc_moy then -- Si on a peu de chance de gagner on check si possible, sinon on se couche
-         if Amount_to_call = 0 then
-            Jouer(move        => check,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         else
-            Jouer(move        => fold,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         end if;
-      elsif force_main < Pourc_bon then -- Si on a une chance moyenne de gagner,on check si possible, sinon on suit si la mise n'est pas trop eleve, sinon on se couche
-         if Amount_to_call = 0 then
-            Jouer(move        => check,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         elsif Amount_to_call < ((force_main-pourc_moy)*Stack)/100 then
-            Jouer(move        => call,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         else
-            Jouer(move        => fold,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         end if;
-      else -- Si on a une grande chance de gagner, on mise si la mise actuelle n'est pas trop eleve, sinon on suit si c'est pas trop eleve, sinon on se couche
-         mise_potentielle := (((force_main * 2) - 110) *Stack)/100;
-         if mise_potentielle > 2 * Amount_to_call then
-            Jouer(move        => bet,
-                  Amount_move => mise_potentielle,
-                  Self        => self,
-                  Other       => other);
-         elsif ((force_main-30)*Stack)/100 > Amount_to_call and Amount_to_call > 0 then
-            Jouer(move        => call,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         else
-            Jouer(move        =>fold,
-                  Amount_move => 0,
-                  Self        => self,
-                  Other       => other);
-         end if;
+      pourc_bon := 70;
+      pourc_moy:= 40;
+      if force_main >=70 then
+         mise_potentielle :=(force_main*2-110);
       end if;
+
+
+      case profil_adv is
+      when frileux =>                                     -- FRILEUX
+         if force_main <= 40 then
+            if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+
+
+         elsif force_main > 40 and force_main <= 70 then
+            if Amount_to_call = 0 then
+               Jouer(move        => bet,
+                     Amount_move => (force_main-40)*Stack,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) <  (0.5*(float(force_main)-40.0)*float(Stack))*0.01 then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+         else
+            if Amount_to_call = 0 then
+               Jouer(move        => bet,
+                     Amount_move => Integer(0.8*float(Stack)),
+                     Self        => self,
+                     Other       => other);
+            elsif Amount_to_call < (force_main-60)*Stack then
+               jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+
+            end if;
+         end if;
+
+
+
+      when con =>                                     -- CON
+         if force_main <= 40 then
+            if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) < 0.1 * Float(Stack) then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+
+
+         elsif force_main > 40 and force_main <= 70 then
+           if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) < (1.5*(float(force_main)-40.0)*float(Stack))*0.01 then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+         else
+            if Amount_to_call < mise_potentielle/2 then
+               Jouer(move        => bet,
+                     Amount_move => mise_potentielle,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) < float((force_main-30)*Stack)*0.01 then
+               jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+
+            end if;
+         end if;
+
+
+         when couillu =>                                     -- COUILLU
+            if force_main <= 40 then
+             if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) < 0.1 * Float(Stack) then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+
+         elsif force_main > 40 and force_main <= 70 then
+            if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) <  (float(force_main)-40.0)*float(Stack)*0.01 then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+         else
+            if Amount_to_call = 0 then
+               Jouer(move        => bet,
+                     Amount_move => Integer(0.4*float(Stack)),
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+
+            end if;
+         end if;
+
+
+         when suisse =>                                     -- SUISSE
+             if force_main <= 40 then
+            if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) < 0.1 * Float(Stack) then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            end if;
+
+
+         elsif force_main > 40 and force_main <= 70 then
+            if Amount_to_call = 0 then
+               Jouer(move        => check,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            elsif float(Amount_to_call) <  (float(force_main)-40.0)*float(Stack)*0.01 then
+               Jouer(move        => call,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+            else
+               Jouer(move        => fold,
+                     Amount_move => 0,
+                     Self        => self,
+                     Other       => other);
+               end if;
+            else
+               if float(Amount_to_call) < 3.0/2.0*Float(mise_potentielle) then
+                  Jouer(move        => bet,
+                        Amount_move => mise_potentielle,
+                        Self        => self,
+                        Other       => other);
+               elsif float(Amount_to_call) < float((force_main-30)*Stack)*0.01 then
+                  jouer(move        => call,
+                        Amount_move => 0,
+                        Self        => self,
+                        Other       => other);
+
+               else
+                  Jouer(move        => fold,
+                        Amount_move => 0,
+                        Self        => self,
+                        Other       => other);
+
+            end if;
+         end if;
+
+
+      end case;
    end Think_Then_Play;
+
 
 end strategie_adversaire;
