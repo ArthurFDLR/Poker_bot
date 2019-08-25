@@ -298,6 +298,8 @@ package body Modelisation_poker IS
       Put_Line(Standard_Error,"Pot : " & Integer'Image(jeu.Pot));
       Put_Line(Standard_Error,"Amount_to_call : " & Integer'Image(jeu.Amount_to_call));
       Put_Line(Standard_Error,"Min_bet : " & Integer'Image(jeu.Min_bet));
+      Put_Line(Standard_Error,"Action_Needed : " & Boolean'Image(jeu.Action_needed));
+      Put_Line(Standard_Error,"Time_action : " & Float'Image(jeu.time_action));
    end;
    
    procedure Affiche_joueur(joueur : IN T_joueur) is

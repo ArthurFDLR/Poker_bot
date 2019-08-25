@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Locations>
+  <Project>
+    <vfs_file>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\bot.gpr</vfs_file>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\bot.gpr</vfs_project>
+      <vfs_file>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\src\Analyse_cartes.ads</vfs_file>
+    </file_marker>
+    <file_marker column=" 1" line=" 1" >
+      <vfs_project>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\bot.gpr</vfs_project>
+      <vfs_file>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\src\evaluation_main.ads</vfs_file>
+    </file_marker>
+    <file_marker current="true" column=" 1" line=" 1" >
+      <vfs_project>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\bot.gpr</vfs_project>
+      <vfs_file>F:\Documents\PROJECTS\Bot_BEARL_ENSMA\Poker_bot\PokerBot_BEARL\src\lecture_messages.ads</vfs_file>
+    </file_marker>
+  </Project>
+</Locations>
